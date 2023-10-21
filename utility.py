@@ -36,4 +36,16 @@ dict_data = [
         {'eid':102,'first_name':'santosh','last_name':'padala'},
         ]  
       
-create_csvFromDict(fields=fields,dict_data=dict_data)
+# create_csvFromDict(fields=fields,dict_data=dict_data)
+
+
+# Reading data from csv : a. In list of lists b. In list of dicts
+
+def read_csv(file_name):
+    with open(file_name,newline='') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            print(row)
+
+file_name = 'emp.csv'
+read_csv(file_name) 
