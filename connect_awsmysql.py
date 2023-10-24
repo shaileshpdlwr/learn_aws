@@ -1,15 +1,28 @@
-import mysql.connector
-
+import mysql.connector,os
+from dotenv import load_dotenv
+load_dotenv()
+host = os.getenv('HOST')
+user = os.getenv('USER')
+password = os.getenv('PASSWORD')
+database = os.getenv('DATABASE')
 mydb = mysql.connector.connect(
-  database='csv_data',
-  host="shailesh-mysql-aws.cbenh1xrfzji.ap-south-1.rds.amazonaws.com",
-  user="shailesh",
-  password="Padma#95"
+  database=database,
+  host=host,
+  user=user,
+  password=password
 )
 mycursor = mydb.cursor()
 insert_query = 'INSERT INTO employee(eid,enam,eaddr) values(%s,%s,%s);'
-values = ('2','sai','Gunthur')
+# values = ('2','sai','Gunthur')
 # print(insert_query)
-mycursor.execute(insert_query,values)
+import csv
+fields=['employee']
+with open('emp2.csv',"r") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+          values = (row['eid'],row['enam'],row['eaddr'])
+          mycursor.execute(insert_query,values)
+          print(row['eid'],row['enam'],row['eaddr'])
+# mycursor.execute(insert_query,values)
 mydb.commit()
-print(mydb)
+# print(mydb)
